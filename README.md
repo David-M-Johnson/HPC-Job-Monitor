@@ -43,3 +43,4 @@ This tool connects to a remote HPC login node and periodically fetchs job status
 ### Run program locally
 1. After getting job_monitor_local.py to a convenient location on your local computer, navigate to its directory in command line interface.
 2. Run the program with 'python job_monitor_local.py'
+3. Note that the first update could take a minute or two because the program needs to SSH into a login node of your HPC.
