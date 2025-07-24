@@ -39,6 +39,8 @@ This tool connects to a remote HPC login node and periodically fetchs job status
 ### Edit a few things in job_monitor_local.py.
 1. See comments for "Put your host name here" and "Put your user name here." If you typically SSH into your HPC with 'ssh username@hostname', put 'hostname' and 'username'
 2. On my HPC, the status of jobs is checked with 'qstat.' Determine what for the HPC you are using. Search for all 7 instances of 'qstat' in job_monitor_local.py. Replace them all with your command.
+3. Change the way parsing is done based on what your queue status checker returns.
+4. Similarly, you will need to change the logic for status coloring.
 
 ### Run program locally
 1. After getting job_monitor_local.py to a convenient location on your local computer, navigate to its directory in command line interface.
