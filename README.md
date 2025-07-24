@@ -47,3 +47,5 @@ This tool connects to a remote HPC login node and periodically fetchs job status
 ### Other Notes
 1. Note that the first update could take a minute or two because the program needs to SSH into a login node of your HPC.
 2. If you submit a job and it crashes before an update, it will not be shown in the "finished jobs" section.
+3. Your HPC may how firewalls or something to prevent you from doing ssh.connect() the way that I have done. You may have to find a work around.
+4. This program essentially "sits" on a login node. For very busy HPCs or ones that are closely monitored for irregular activity ... you might get a talking to. s
