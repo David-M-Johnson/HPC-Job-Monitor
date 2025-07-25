@@ -1,29 +1,29 @@
 # HPC-Job-Monitor
 
-A simple Python GUI application to monitor HPC cluster jobs via SSH.  
-This tool connects to a remote HPC login node and periodically fetchs job statuses. It displays active and finished jobs in an easy-to-read, color-coded interface.
+A Python GUI application to monitor HPC cluster jobs via SSH. Originally written for Imperial College London's cluster, and will require adaptation for other HPCs.
+
+This tool connects to a remote HPC login node and periodically checks job statuses with 'qstat' and 'qstat -f'. It displays active and finished jobs in an easy-to-read, color-coded interface.
 
 ---
 
 ## Features
 
 - Connects to HPC clusters using SSH (via [Paramiko](https://github.com/paramiko/paramiko))
-- Periodically updates job status with customizable interval (no faster than 15 seconds)
+- Periodically updates job status with customizable interval (no faster than 30 seconds)
 - Displays active jobs with color-coded statuses:
   - **Green**: Running jobs
   - **Orange**: Queued jobs
   - **Red**: Other statuses
-- Maintains a separate list of finished jobs (displaying Job ID, Class, Job Name, and Status)
-- Finished jobs show a lighter blue color for better visibility on dark backgrounds
-- Simple and clean Tkinter GUI interface
+- Maintains a separate list of finished jobs (displaying Job ID, Run Folder, Class, Job Name, and Status)
+- The program will also store a 'history' of ongoing and finished jobs. This way, if it stops and restarts, it can pick up from where it left off; however, if the program must at some point run while the job is active, otherwise it will never show up in the 'finished' jobs table.
 
 ---
 
 ## Requirements
 
 - Python 3.6+
-- [Paramiko](https://pypi.org/project/paramiko/)
-- Tkinter (usually included with standard Python installations)
+- Paramiko
+- Tkinter
 
 ---
 
@@ -37,18 +37,17 @@ This tool connects to a remote HPC login node and periodically fetchs job status
 ## How to Use
 
 ### Edit a few things in job_monitor_local.py.
-1. See comments for "Put your host name here" and "Put your user name here." If you typically SSH into your HPC with 'ssh username@hostname', put 'hostname' and 'username'
-2. On my HPC, the status of jobs is checked with 'qstat.' Determine what for the HPC you are using. Search for all 7 instances of 'qstat' in job_monitor_local.py. Replace them all with your command.
-3. Change the way parsing is done based on what your queue status checker returns.
-4. Similarly, you will need to change the logic for status coloring.
+1. See comments with the word "edit." Add your username and hostname in the proper places. If you typically SSH into your HPC with 'ssh username@hostname', put 'hostname' and 'username'.
+2. On the Imperial College HPC, the status of jobs is checked with 'qstat.' This may vary. Determine how to check job status on the HPC you are using. Search for all 7 instances of 'qstat' in job_monitor_local.py. Replace them all with your command. If necessary (very likely), change the way parsing is done based on what your queue status checker returns. The current program also runs 'qstat -f' to get the run folder. I wrote this to trim everything before username, but you may change this.
+4. Similarly, you may need to change the logic for status coloring.
 
 ### Run program locally
-1. After getting job_monitor_local.py to a convenient location on your local computer, navigate to its directory in command line interface.
+1. After getting job_monitor_local.py and the two .json files on your local computer, navigate to their directory in the command line.
 2. Run the program with 'python job_monitor_local.py'
-3. Do not put in a backdoor and send this to the IT team for distribution.
+3. Note: Definitely do not put in a backdoor and send this to the IT team for widespread distribution.
 
 ### Other Notes
-1. Note that the first update could take a minute or two because the program needs to SSH into a login node of your HPC.
+1. Note that the first update could take a minute because the program needs to SSH into a login node of your HPC. This is the most finicky part of the program. If you find any good solutions, please let me know!
 2. If you submit a job and it crashes before an update, it will not be shown in the "finished jobs" section.
 3. Your HPC may how firewalls or something to prevent you from doing ssh.connect() the way that I have done. You may have to find a work around.
 4. This program essentially "sits" on a login node. For very busy HPCs or ones that are closely monitored for irregular activity ... you might get a talking to.
