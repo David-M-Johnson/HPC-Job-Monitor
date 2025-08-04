@@ -2,7 +2,7 @@
 
 A Python GUI application to monitor HPC cluster jobs via SSH. Originally written for Imperial College London's cluster, and will require adaptation for other HPCs.
 
-This tool connects to a remote HPC login node and periodically checks job statuses with 'qstat' and 'qstat -f'. It displays active and finished jobs in an easy-to-read, color-coded interface.
+This tool connects to a remote HPC login node and periodically checks job statuses with 'qstat' and 'qstat -f'. It displays active and finished jobs in an easy-to-read, color-coded interface. There are two version. The basic version, using Paramiko, and another version using an sshpass, which you will need if your HPC perfents authentication with Paramiko.
 
 ---
 
