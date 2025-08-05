@@ -102,8 +102,8 @@ class HPCJobMonitor:
     def start_monitoring(self):
         try:
             interval = int(self.interval_var.get())
-            if interval < 5:
-                messagebox.showerror("Error", "Interval should be at least 5 seconds.")
+            if interval < 30:
+                messagebox.showerror("Error", "Interval should be at least 30 seconds.")
                 return
             self.interval = interval
         except ValueError:
