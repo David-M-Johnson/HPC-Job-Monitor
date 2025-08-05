@@ -8,21 +8,21 @@ This tool connects to a remote HPC login node and periodically checks job status
 
 ## Features
 
-- Connects to HPC clusters using SSH (via [Paramiko](https://github.com/paramiko/paramiko))
+- Connects to HPC clusters using SSH (via [Paramiko](https://github.com/paramiko/paramiko)) or [sshpass](https://linux.die.net/man/1/sshpass#:~:text=sshpass%20is%20a%20utility%20designed,by%20an%20interactive%20keyboard%20user/.)
 - Periodically updates job status with customizable interval (no faster than 30 seconds)
 - Displays active jobs with color-coded statuses:
   - **Green**: Running jobs
   - **Orange**: Queued jobs
   - **Red**: Other statuses
-- Maintains a separate list of finished jobs (displaying Job ID, Run Folder, Class, Job Name, and Status)
-- The program will also store a 'history' of ongoing and finished jobs. This way, if it stops and restarts, it can pick up from where it left off; however, if the program must at some point run while the job is active, otherwise it will never show up in the 'finished' jobs table.
+  - **Blue**: Finished Jobs
+- The program will also store a 'history' of ongoing and finished jobs. This way, if the program terminates and restarts, it can pick up from where it left off; however, the program must at some point run while the job is active, otherwise it will never show up in the 'finished' jobs table.
 
 ---
 
 ## Requirements
 
 - Python 3.6+
-- Paramiko
+- Paramiko or sshpass
 - Tkinter
 
 ---
@@ -35,8 +35,9 @@ This tool connects to a remote HPC login node and periodically checks job status
    cd HPC-Job-Monitor
 
 ## How to Use
+Note: job_monitor_local.py uses Paramiko and is slightly better, but for some HPCs, you will need to use sshpass, which is the other python file.
 
-### Edit a few things in job_monitor_local.py.
+### Edit a few things in job_monitor_local.py or job_monitor_keyboard_interactive.py.
 1. See comments with the word "edit." Add your username and hostname in the proper places. If you typically SSH into your HPC with 'ssh username@hostname', put 'hostname' and 'username'.
 2. On the Imperial College HPC, the status of jobs is checked with 'qstat.' This may vary. Determine how to check job status on the HPC you are using. Search for all 7 instances of 'qstat' in job_monitor_local.py. Replace them all with your command. If necessary (very likely), change the way parsing is done based on what your queue status checker returns. The current program also runs 'qstat -f' to get the run folder. I wrote this to trim everything before username, but you may change this.
 4. Similarly, you may need to change the logic for status coloring.
